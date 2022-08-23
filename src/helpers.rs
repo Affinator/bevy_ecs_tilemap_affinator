@@ -67,10 +67,10 @@ pub fn get_chunk_2d_transform(
             coord_system: IsoCoordSystem::Staggered,
             ..
         } => project_iso_staggered(
-            chunk_position.x,
+            chunk_position.x + chunk_position.y / 2.0,
             chunk_position.y,
             chunk_size.x * grid_size.x,
-            chunk_size.y,
+            chunk_size.y * grid_size.y / 2.0,
         ),
     };
 
