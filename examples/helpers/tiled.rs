@@ -186,7 +186,7 @@ pub fn process_loaded_maps(
                             },
                         };
 
-                        let mut tile_storage = TileStorage::empty(map_size);
+                        let mut tile_storage = TileStorage::empty(map_size, TileStorageMode::DenseVec);
                         let layer_entity = commands.spawn().id();
 
                         for x in 0..map_size.x {
