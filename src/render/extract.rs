@@ -100,6 +100,7 @@ pub fn extract(
                 Changed<TileTexture>,
                 Changed<TileFlip>,
                 Changed<TileColor>,
+                Changed<TilemapId>,
             )>,
         >,
     >,
