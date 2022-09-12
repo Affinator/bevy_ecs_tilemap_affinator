@@ -251,7 +251,7 @@ fn removal_helper(
     }
 
     for (entity, _, tracker) in changed_query.iter() {
-        if tracker.is_changed() {
+        if tracker.is_changed() && !tracker.is_added() { // this API needs to be redone
             commands.spawn().insert(RemovedTileEntity(entity));
         }
     }
