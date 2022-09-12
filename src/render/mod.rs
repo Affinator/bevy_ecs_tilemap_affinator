@@ -21,6 +21,8 @@ use crate::{
     prelude::{TilemapRenderSettings, TilemapTexture},
     tiles::{TilePos, TileStorage},
 };
+use crate::map::TilemapId;
+use crate::prelude::TileVisible;
 
 use self::{
     chunk::{RenderChunk2dStorage, TilemapUniformData},
@@ -238,8 +240,17 @@ pub struct RemovedTileEntity(pub Entity);
 #[derive(Component)]
 pub struct RemovedMapEntity(pub Entity);
 
-fn removal_helper(mut commands: Commands, removed_query: RemovedComponents<TilePos>) {
+fn removal_helper(
+    mut commands: Commands,
+    removed_query: RemovedComponents<TilePos>,
+    // we query for TileVisible, to only find real Tiles, not ExtractedTiles or other entities
+    changed_query: Query<(Entity, &TileVisible), Changed<TilemapId>>
+) {
     for entity in removed_query.iter() {
+        commands.spawn().insert(RemovedTileEntity(entity));
+    }
+
+    for (entity, _) in changed_query.iter() {
         commands.spawn().insert(RemovedTileEntity(entity));
     }
 }
