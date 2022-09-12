@@ -244,14 +244,16 @@ fn removal_helper(
     mut commands: Commands,
     removed_query: RemovedComponents<TilePos>,
     // we query for TileVisible, to only find real Tiles, not ExtractedTiles or other entities
-    changed_query: Query<(Entity, &TileVisible), Changed<TilemapId>>
+    changed_query: Query<(Entity, &TileVisible, ChangeTrackers<TilemapId>), Changed<TilemapId>>
 ) {
     for entity in removed_query.iter() {
         commands.spawn().insert(RemovedTileEntity(entity));
     }
 
-    for (entity, _) in changed_query.iter() {
-        commands.spawn().insert(RemovedTileEntity(entity));
+    for (entity, _, tracker) in changed_query.iter() {
+        if tracker.is_changed() {
+            commands.spawn().insert(RemovedTileEntity(entity));
+        }
     }
 }
 
